@@ -1,7 +1,7 @@
 use colored::Colorize;
 
-pub fn print_nebula() {
-    println!("{}", "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠀⠀⠀⠀⠀
+pub fn print_nebula() -> String {
+    let stars = format!("{}", "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢤⠤⠤⠞⡎⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡥⠀⠀⠓⠦⢄⡀⠀⠀
 ⠀⢸⠦⣄⡠⠞⡇⠀⠀⠀⣞⣠⠤⡀⢰⠋⠁⠀⠀⠀
@@ -11,5 +11,7 @@ pub fn print_nebula() {
 ⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⢀⡧⠀⠁⠀⢀⠎⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠳⣄⠀⢀⣀⠈⡇⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡞⡴⠋⠈⠙⠿⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀".bold().purple())
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀".bold().purple());
+
+    return stars
 }

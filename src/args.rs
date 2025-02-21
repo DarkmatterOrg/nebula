@@ -1,53 +1,64 @@
-use clap::Parser;
+use clap::{Parser, Subcommand, Args};
+use crate::modules::funny::print_nebula;
+use colored::Colorize;
+
+const VERSION: &str = clap::crate_version!();
+
+fn nebula_version() -> String {
+    let stars = print_nebula();
+
+    let version_message = format!("{}: v{}\n {}", "Nebula".bold().purple(), VERSION, stars);
+
+    return version_message
+}
+
 
 #[derive(Parser)]
 #[command(
     name = "Nebula",
     version = "1.0",
     about = "Nebula CLI Tool",
-    arg_required_else_help = true
+    arg_required_else_help = true,
+    version = nebula_version(),
 )]
 pub struct Cli {
-    #[clap(short, long)]
-    /// Show version
-    pub version: bool,
-
-    /// Show image type
-    #[clap(short, long)]
-    pub showimage: bool,
-
-    /// Install flatpaks from list
-    #[clap(short, long)]
-    pub installflatpaks: bool,
-
-    /// Remove flatpaks from list
-    #[clap(short, long)]
-    pub removeflatpaks: bool,
-
     /// Run the theme manager
-    #[clap(short, long)]
-    pub thememanager: bool,
-
-    /// Run the update manager
-    #[clap(short, long)]
-    pub updatesystem: bool,
-
-    /// Add missing users
-    #[clap(short, long)]
-    pub fixusers: bool,
+    #[command(subcommand)]
+    pub command: Option<Commands>,
 }
 
-#[derive(Parser)]
-pub struct ThemeManagerCli {
-    #[clap(short, long)]
+#[derive(Subcommand)]
+pub enum Commands {
+    /// Manage themes
+    ThemeManager(ThemeManagerArgs),
+    
+    /// Fix Users
+    FixUsers,
+
+    /// Show Image type
+    ShowImage,
+
+    /// Remove flatpaks from a list
+    FlatpaksRemove,
+
+    /// Install flatpaks from a list
+    FlatpaksInstall,
+
+    /// Update system
+    UpdateSystem
+}
+
+#[derive(Args)]
+pub struct ThemeManagerArgs {
     /// Set Theme
-    pub theme: Option<String>,
+    #[arg(short, long)]
+    pub theme: String,
 
-    #[clap(short, long)]
     /// Set Icon theme
-    pub icons: Option<String>,
+    #[arg(short, long)]
+    pub icons: String,
 
-    #[clap(short, long)]
     /// Set Wallpaper
-    pub wallpaper: Option<String>,
+    #[arg(short, long)]
+    pub wallpaper: String,
 }

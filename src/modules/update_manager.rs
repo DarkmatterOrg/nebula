@@ -9,6 +9,9 @@ fn is_root() -> bool {
 }
 
 pub fn update_python_packages() {
+
+    println!("\n{}", "Updating python packages...".bold());
+
     // Run the pip3 freeze command and capture the output
     let output = Command::new("pip3")
         .arg("freeze")
@@ -48,6 +51,8 @@ pub fn update_node_packages() {
     let path_var = env::var("PATH").expect("Failed to read PATH");
     let paths: Vec<_> = env::split_paths(&path_var).collect(); // Collect paths into a Vec
 
+    println!("\n{}", "Updating node packages...".bold());
+
     // Find the first package manager that exists in the PATH
     if let Some(pkg_manager) = node_pkg_managers.iter().find(|&&pkg| {
         paths.iter().any(|dir| Path::new(&dir).join(pkg).exists())
@@ -71,7 +76,7 @@ pub fn update_node_packages() {
 pub fn update_distrobox() {
 
     if Path::new("/usr/bin/distrobox").exists() {
-        println!("{}", "Updating distrobox containers...".bold());
+        println!("\n{}", "Updating distrobox containers...".bold());
 
         let distrobox_update = Command::new("distrobox").args(["upgrade", "--all"]).status().expect("Failed to upgrade all distroboc containers!");
     
@@ -86,7 +91,7 @@ pub fn update_distrobox() {
 
 pub fn update_flatpaks() {
     if Path::new("/usr/bin/flatpak").exists() {
-        println!("{}", "Updating flatpaks...".bold());
+        println!("\n{}", "Updating flatpaks... (It may hang for a few minutes)".bold());
 
         let flatpak_update = Command::new("flatpak").args(["update", "-y"]).status().expect("Failed to run command");
     
@@ -100,7 +105,7 @@ pub fn update_flatpaks() {
 
 pub fn update_snaps() {
     if Path::new("/usr/bin/snap").exists() {
-        println!("{}", "Updating snaps...".bold());
+        println!("\n{}", "Updating snaps...".bold());
 
         let snap_update = Command::new("snap").arg("update").status().expect("Failed to run command");
 
@@ -114,7 +119,7 @@ pub fn update_snaps() {
 
 pub fn update_image() {
     if Path::new("/usr/bin/bootc").exists() {
-        println!("{}", "Updating base image...".bold());
+        println!("\n{}", "Updating base image...".bold());
         let image_update = Command::new("bootc").arg("upgrade").status().expect("Failed to run command");
     
         if !image_update.success() {
