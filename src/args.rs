@@ -54,6 +54,10 @@ pub struct ThemeManagerArgs {
     #[arg(short, long)]
     pub theme: String,
 
+    /// Set Cursor theme
+    #[arg(short, long)]
+    pub cursor: String,
+
     /// Set Icon theme
     #[arg(short, long)]
     pub icons: String,

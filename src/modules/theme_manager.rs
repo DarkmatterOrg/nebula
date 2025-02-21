@@ -19,8 +19,11 @@ fn set_theme(args: &ThemeManagerArgs) {
         // Apply the theme
         run_command("plasma-apply-colorscheme", &args.theme, "Plasma colorscheme");
 
+        // Apply the cursor theme
+        run_command("plasma-apply-cursortheme", &args.cursor, "Cursor theme");
+
         // Apply the icon theme
-        run_command("plasma-apply-cursortheme", &args.icons, "Cursor theme");
+        run_command("/usr/libexec/plasma-changeicons", &args.icons, "Icon theme");
 
         // Apply the wallpaper
         run_command("plasma-apply-wallpaperimage", &args.wallpaper, "Wallpaper");
