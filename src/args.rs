@@ -16,7 +16,7 @@ fn nebula_version() -> String {
 #[derive(Parser)]
 #[command(
     name = "Nebula",
-    version = "1.0",
+    version = VERSION,
     about = "Nebula CLI Tool",
     arg_required_else_help = true,
     version = nebula_version(),
