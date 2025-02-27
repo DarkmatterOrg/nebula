@@ -1,9 +1,8 @@
-use std::path::Path;
-use std::fs;
 use colored::Colorize;
+use std::fs;
+use std::path::Path;
 
 pub fn get_image_type() -> String {
-    
     let image_type_file: Option<&Path>;
 
     if Path::new("/usr/share/horizon").exists() {
@@ -17,10 +16,10 @@ pub fn get_image_type() -> String {
         panic!("{}: No image type file found!", "ERROR".bold().red());
     }
 
-
     let image = fs::read_to_string(image_type_file.unwrap()).expect("Failed to get image type");
 
     let image_name = image.trim().to_string();
 
-    return image_name
+    return image_name;
 }
+

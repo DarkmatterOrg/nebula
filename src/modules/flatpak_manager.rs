@@ -32,13 +32,10 @@ fn remove_flatpaks() {
             ));
         }
 
-        /*_ if image_type.contains("arcturus") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/horizon/packages/arcturus/arcturus_flatpaks"))
-        }*/
+        _ if image_type.contains("arcturus") => return,
 
-        _ if image_type == "plasma" => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/umbra/plasma/flatpaks_remove"));
-        }
+        _ if image_type.contains("nova") => return,
+
         /*_ if image_type.contains("nova_gnome") => {
             flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks"));
         },
@@ -207,6 +204,38 @@ pub fn fix_theming() {
     }
 }
 
+fn enable_flathub() {
+    println!("");
+
+    let mut add_command = Command::new("flatpak")
+        .args([
+            "remote-add",
+            "--if-not-exists",
+            "--system",
+            "flathub",
+            "https://dl.flathub.org/repo/flathub.flatpakrepo",
+        ])
+        .spawn()
+        .expect("Failed to start flatpak remote-add");
+
+    let status = add_command.wait().expect("Failed to add flathub");
+
+    if !status.success() {
+        eprintln!("{}: Failed to add flathub!", "ERROR".bold().red())
+    }
+
+    let mut enable_command = Command::new("flatpak")
+        .args(["remote-modify", "--system", "--enable", "flathub"])
+        .spawn()
+        .expect("Failed to start flatpak remote-modify");
+
+    let status = enable_command.wait().expect("Failed to modify flathub");
+
+    if !status.success() {
+        eprintln!("{}: Failed to modify flathub!", "ERROR".bold().red())
+    }
+}
+
 fn install_flatpaks() {
     let mut flatpaks_to_install: Vec<PathBuf> = Vec::new();
     let image_type = get_image_type();
@@ -216,13 +245,20 @@ fn install_flatpaks() {
             flatpaks_to_install.push(PathBuf::from(
                 "/usr/share/horizon/packages/aster/aster_flatpaks",
             ));
+
+            flatpaks_to_install.push(PathBuf::from("/usr/share/horizon/packages/shared_flatpaks"));
         }
 
+        // Annoying thing
         _ if image_type.contains("arcturus") => {
-            flatpaks_to_install.push(PathBuf::from("/usr/share/horizon/packages/arcturus/arcturus_flatpaks"))
+            flatpaks_to_install.push(PathBuf::from(
+                "/usr/share/horizon/packages/arcturus_flatpaks",
+            ));
+
+            flatpaks_to_install.push(PathBuf::from("/usr/share/horizon/packages/shared_flatpaks"));
         }
 
-        _ if image_type == "plasma" => {
+        _ if image_type.contains("umbra") => {
             flatpaks_to_install.push(PathBuf::from("/usr/share/umbra/packages/flatpaks"));
         }
         _ if image_type.contains("nova_gnome") => {
@@ -363,8 +399,8 @@ pub fn flatpak_manager_remove() {
 
 pub fn flatpak_manager() {
     remove_fedora_remote();
+    enable_flathub();
     install_flatpaks();
     fix_theming();
     disable_systemd_service();
 }
-
