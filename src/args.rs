@@ -1,5 +1,5 @@
-use clap::{Parser, Subcommand, Args};
 use crate::modules::funny::print_nebula;
+use clap::{Args, Parser, Subcommand};
 use colored::Colorize;
 
 const VERSION: &str = clap::crate_version!();
@@ -9,9 +9,8 @@ fn nebula_version() -> String {
 
     let version_message = format!("{}: v{}\n {}", "Nebula".bold().purple(), VERSION, stars);
 
-    return version_message
+    return version_message;
 }
-
 
 #[derive(Parser)]
 #[command(
@@ -31,7 +30,7 @@ pub struct Cli {
 pub enum Commands {
     /// Manage themes
     ThemeManager(ThemeManagerArgs),
-    
+
     /// Fix Users
     FixUsers,
 
@@ -45,7 +44,7 @@ pub enum Commands {
     FlatpaksInstall,
 
     /// Update system
-    UpdateSystem
+    UpdateSystem,
 }
 
 #[derive(Args)]

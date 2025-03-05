@@ -1,14 +1,17 @@
 use colored::Colorize;
-use std::process::Command;
+use libc;
 use std::env;
 use std::path::Path;
-use libc;
+use std::process::Command;
 
 fn is_root() -> bool {
     unsafe { libc::geteuid() == 0 }
 }
 
 pub fn update_python_packages() {
+    if !Path::new("/usr/bin/pip3").exists() {
+        return;
+    }
 
     println!("\n{}", "Updating python packages...".bold());
 
@@ -54,9 +57,10 @@ pub fn update_node_packages() {
     println!("\n{}", "Updating node packages...".bold());
 
     // Find the first package manager that exists in the PATH
-    if let Some(pkg_manager) = node_pkg_managers.iter().find(|&&pkg| {
-        paths.iter().any(|dir| Path::new(&dir).join(pkg).exists())
-    }) {
+    if let Some(pkg_manager) = node_pkg_managers
+        .iter()
+        .find(|&&pkg| paths.iter().any(|dir| Path::new(&dir).join(pkg).exists()))
+    {
         // Use the found package manager to update the packages
         let output = Command::new(pkg_manager)
             .arg("update")
@@ -66,40 +70,54 @@ pub fn update_node_packages() {
         if output.status.success() {
             println!("Packages updated successfully using {}", pkg_manager);
         } else {
-            eprintln!("{}: Failed to update packages using {}", "ERROR".bold().red(), pkg_manager);
+            eprintln!(
+                "{}: Failed to update packages using {}",
+                "ERROR".bold().red(),
+                pkg_manager
+            );
         }
     } else {
-        eprintln!("{}: No known node package manager found in the system PATH", "ERROR".bold().red());
+        return;
     }
 }
 
 pub fn update_distrobox() {
-
     if Path::new("/usr/bin/distrobox").exists() {
         println!("\n{}", "Updating distrobox containers...".bold());
 
-        let distrobox_update = Command::new("distrobox").args(["upgrade", "--all"]).status().expect("Failed to upgrade all distroboc containers!");
-    
+        let distrobox_update = Command::new("distrobox")
+            .args(["upgrade", "--all"])
+            .status()
+            .expect("Failed to upgrade all distroboc containers!");
+
         if !distrobox_update.success() {
-            eprintln!("{}: Failed to upgrade distrobox containers!", "ERROR".bold().red())
+            eprintln!(
+                "{}: Failed to upgrade distrobox containers!",
+                "ERROR".bold().red()
+            )
         }
     } else {
-        return
+        return;
     }
-
 }
 
 pub fn update_flatpaks() {
     if Path::new("/usr/bin/flatpak").exists() {
-        println!("\n{}", "Updating flatpaks... (It may hang for a few minutes)".bold());
+        println!(
+            "\n{}",
+            "Updating flatpaks... (It may hang for a few minutes)".bold()
+        );
 
-        let flatpak_update = Command::new("flatpak").args(["update", "-y"]).status().expect("Failed to run command");
-    
+        let flatpak_update = Command::new("flatpak")
+            .args(["update", "-y"])
+            .status()
+            .expect("Failed to run command");
+
         if !flatpak_update.success() {
             eprintln!("{}: Failed to update flatpaks!", "ERROR".bold().red())
         }
     } else {
-        return
+        return;
     }
 }
 
@@ -107,31 +125,39 @@ pub fn update_snaps() {
     if Path::new("/usr/bin/snap").exists() {
         println!("\n{}", "Updating snaps...".bold());
 
-        let snap_update = Command::new("snap").arg("update").status().expect("Failed to run command");
+        let snap_update = Command::new("snap")
+            .arg("update")
+            .status()
+            .expect("Failed to run command");
 
         if !snap_update.success() {
             eprintln!("{}: Failed to update snaps!", "ERROR".bold().red())
         }
     } else {
-        return
+        return;
     }
 }
 
 pub fn update_image() {
     if Path::new("/usr/bin/bootc").exists() {
         println!("\n{}", "Updating base image...".bold());
-        let image_update = Command::new("bootc").arg("upgrade").status().expect("Failed to run command");
-    
+        let image_update = Command::new("bootc")
+            .arg("upgrade")
+            .status()
+            .expect("Failed to run command");
+
         if !image_update.success() {
-            eprintln!("{}: Failed to update the base image!!", "ERROR".bold().red())
+            eprintln!(
+                "{}: Failed to update the base image!!",
+                "ERROR".bold().red()
+            )
         }
     } else {
-        return
+        return;
     }
 }
 
 pub fn update_all() {
-
     if is_root() {
         update_flatpaks();
         update_snaps();
@@ -141,5 +167,4 @@ pub fn update_all() {
         update_node_packages();
         update_python_packages();
     }
-
 }

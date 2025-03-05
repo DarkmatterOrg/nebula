@@ -1,15 +1,17 @@
-mod modules;
 mod args;
+mod modules;
 
 use args::Commands;
 use clap::Parser;
 use colored::Colorize;
 
 use crate::modules::{
-    image_type::get_image_type, flatpak_manager::{flatpak_manager, flatpak_manager_remove}, theme_manager::theme_manager, update_manager::update_all,
-    fix_users::fix_users
+    fix_users::fix_users,
+    flatpak_manager::{flatpak_manager, flatpak_manager_remove},
+    image_type::get_image_type,
+    theme_manager::theme_manager,
+    update_manager::update_all,
 };
-
 
 fn main() {
     let args = args::Cli::parse();
@@ -33,7 +35,6 @@ fn main() {
             flatpak_manager_remove();
         }
 
-
         Some(Commands::FlatpaksInstall) => {
             flatpak_manager();
         }
@@ -41,7 +42,6 @@ fn main() {
         Some(Commands::UpdateSystem) => {
             update_all();
         }
-
 
         None => {
             return;

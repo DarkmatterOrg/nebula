@@ -22,4 +22,3 @@ pub fn get_image_type() -> String {
 
     return image_name;
 }
-
