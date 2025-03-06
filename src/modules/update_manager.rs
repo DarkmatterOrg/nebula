@@ -72,7 +72,7 @@ pub fn update_node_packages() {
         } else {
             eprintln!(
                 "{}: Failed to update packages using {}",
-                "ERROR".bold().red(),
+                "ERR".bold().red(),
                 pkg_manager
             );
         }
@@ -93,7 +93,7 @@ pub fn update_distrobox() {
         if !distrobox_update.success() {
             eprintln!(
                 "{}: Failed to upgrade distrobox containers!",
-                "ERROR".bold().red()
+                "ERR".bold().red()
             )
         }
     } else {
@@ -114,7 +114,7 @@ pub fn update_flatpaks() {
             .expect("Failed to run command");
 
         if !flatpak_update.success() {
-            eprintln!("{}: Failed to update flatpaks!", "ERROR".bold().red())
+            eprintln!("{}: Failed to update flatpaks!", "ERR".bold().red())
         }
     } else {
         return;
@@ -131,7 +131,7 @@ pub fn update_snaps() {
             .expect("Failed to run command");
 
         if !snap_update.success() {
-            eprintln!("{}: Failed to update snaps!", "ERROR".bold().red())
+            eprintln!("{}: Failed to update snaps!", "ERR".bold().red())
         }
     } else {
         return;
@@ -147,10 +147,7 @@ pub fn update_image() {
             .expect("Failed to run command");
 
         if !image_update.success() {
-            eprintln!(
-                "{}: Failed to update the base image!!",
-                "ERROR".bold().red()
-            )
+            eprintln!("{}: Failed to update the base image!!", "ERR".bold().red())
         }
     } else {
         return;

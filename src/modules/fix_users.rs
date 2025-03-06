@@ -1,8 +1,18 @@
 use crate::get_image_type;
+use crate::running_in_debug;
 use colored::Colorize;
 use std::process::Command;
 
 pub fn fix_users() {
+    if running_in_debug() {
+        println!(
+            "{}: Do {} run this module on systems other than Horizon,Umbra or Nova.",
+            "INFO".bold().blue(),
+            "NOT".bold().red()
+        );
+        std::process::exit(1)
+    }
+
     let image_type = get_image_type();
 
     match image_type {
@@ -24,10 +34,7 @@ pub fn fix_users() {
                     eprintln!("Failed to create 'sddm' group.");
                 }
             } else {
-                println!(
-                    "{}: 'sddm' group already exists.",
-                    "WARNING".bold().yellow()
-                );
+                println!("{}: 'sddm' group already exists.", "WARN".bold().yellow());
             }
 
             // Check if 'sddm' user exists, else create it
@@ -56,7 +63,7 @@ pub fn fix_users() {
                 if user_add.success() {
                     println!("Created 'sddm' user.");
                 } else {
-                    eprintln!("{}: Failed to create 'sddm' user.", "ERROR".bold().red());
+                    eprintln!("{}: Failed to create 'sddm' user.", "ERR".bold().red());
                 }
             } else {
                 println!("'sddm' user already exists.");
@@ -81,10 +88,7 @@ pub fn fix_users() {
                     eprintln!("Failed to create 'gdm' group.");
                 }
             } else {
-                println!(
-                    "{}: 'gdm' group already exists.",
-                    "WARNING".bold().yellow()
-                );
+                println!("{}: 'gdm' group already exists.", "WARN".bold().yellow());
             }
 
             // Check if 'sddm' user exists, else create it
@@ -105,7 +109,7 @@ pub fn fix_users() {
                         "/var/lib/gdm", // home directory
                         "-s",
                         "/usr/sbin/nologin", // shell
-                        "gdm",              // username
+                        "gdm",               // username
                     ])
                     .status()
                     .expect("Failed to add gdm user");
@@ -113,7 +117,7 @@ pub fn fix_users() {
                 if user_add.success() {
                     println!("Created 'gdm' user.");
                 } else {
-                    eprintln!("{}: Failed to create 'gdm' user.", "ERROR".bold().red());
+                    eprintln!("{}: Failed to create 'gdm' user.", "ERR".bold().red());
                 }
             } else {
                 println!("'gdm' user already exists.");

@@ -16,7 +16,7 @@ fn remove_fedora_remote() {
     if !status.success() {
         eprintln!(
             "{}: Failed to remove the Fedora remote!",
-            "ERROR".bold().red()
+            "ERR".bold().red()
         )
     }
 }
@@ -36,40 +36,6 @@ fn remove_flatpaks() {
 
         _ if image_type.contains("nova") => return,
 
-        /*_ if image_type.contains("nova_gnome") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks"));
-        },
-        _ if image_type.contains("nova_gnome_dx") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks_dx"));
-        },
-        _ if image_type.contains("nova_gnome_gaming") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks_gaming"));
-        },
-        _ if image_type.contains("supernova_gnome") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks"));
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks_dx"));
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/gnome/install_flatpaks_gaming"));
-        },
-        _ if image_type.contains("nova_plasma") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks"));
-        },
-        _ if image_type.contains("nova_plasma_dx") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks_dx"));
-        },
-        _ if image_type.contains("nova_plasma_gaming") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks_gaming"));
-        },
-        _ if image_type.contains("supernova_plasma") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks"));
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks_dx"));
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/plasma/install_flatpaks_gaming"));
-        },
-        _ if image_type.contains("nova_cosmic_dx") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/cosmic/install_flatpaks_dx"));
-        },
-        _ if image_type.contains("supernova_cosmic") => {
-            flatpaks_to_remove.push(PathBuf::from("/usr/share/nova/packages/cosmic/install_flatpaks_dx"));
-        }, */
         _ => {
             eprintln!("No matching image type for flatpak installation");
             return;
@@ -104,13 +70,9 @@ pub fn fix_theming() {
             .expect("Failed to run flatpak override");
 
         if status.success() {
-            println!("{}: flatpak override {:?}", "SUCCESS".bold().green(), args);
+            println!("{}: flatpak override {:?}", "DONE".bold().green(), args);
         } else {
-            eprintln!(
-                "{}: flatpak override {:?} failed",
-                "ERROR".bold().red(),
-                args
-            );
+            eprintln!("{}: flatpak override {:?} failed", "ERR".bold().red(), args);
         }
     }
 
@@ -221,7 +183,7 @@ fn enable_flathub() {
     let status = add_command.wait().expect("Failed to add flathub");
 
     if !status.success() {
-        eprintln!("{}: Failed to add flathub!", "ERROR".bold().red())
+        eprintln!("{}: Failed to add flathub!", "ERR".bold().red())
     }
 
     let mut enable_command = Command::new("flatpak")
@@ -232,7 +194,7 @@ fn enable_flathub() {
     let status = enable_command.wait().expect("Failed to modify flathub");
 
     if !status.success() {
-        eprintln!("{}: Failed to modify flathub!", "ERROR".bold().red())
+        eprintln!("{}: Failed to modify flathub!", "ERR".bold().red())
     }
 }
 
@@ -369,7 +331,7 @@ fn disable_systemd_service() {
         ));
         service_name = "umbra-flatpak-manager.service";
     } else {
-        panic!("{}: No systemd service found!", "ERROR".bold().red());
+        panic!("{}: No systemd service found!", "ERR".bold().red());
     };
 
     // Disable the systemd service using systemctl
@@ -381,15 +343,11 @@ fn disable_systemd_service() {
     if status.success() {
         println!(
             "{}: Successfully disabled {}",
-            "SUCCESS".bold().green(),
+            "DONE".bold().green(),
             service_name
         );
     } else {
-        eprintln!(
-            "{}: Failed to disable {}",
-            "ERROR".bold().red(),
-            service_name
-        );
+        eprintln!("{}: Failed to disable {}", "ERR".bold().red(), service_name);
     }
 }
 

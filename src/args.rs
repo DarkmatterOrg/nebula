@@ -31,6 +31,9 @@ pub enum Commands {
     /// Manage themes
     ThemeManager(ThemeManagerArgs),
 
+    /// Manage kernel arguments
+    Kargs(KargsManagerArgs),
+
     /// Fix Users
     FixUsers,
 
@@ -45,6 +48,21 @@ pub enum Commands {
 
     /// Update system
     UpdateSystem,
+}
+
+#[derive(Args)]
+pub struct KargsManagerArgs {
+    #[arg(short, long)]
+    pub del: Option<String>,
+
+    #[arg(short, long)]
+    pub add: Option<String>,
+
+    #[arg(short, long)]
+    pub replace: Option<String>,
+
+    #[arg(short, long)]
+    pub new_value: Option<String>,
 }
 
 #[derive(Args)]

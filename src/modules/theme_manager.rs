@@ -142,11 +142,7 @@ fn run_command(command: &str, arg: &str, description: &str) {
         .expect("Failed to run the command");
 
     if !status.success() {
-        eprintln!(
-            "{}: Failed to set the {}",
-            "ERROR".bold().red(),
-            description
-        );
+        eprintln!("{}: Failed to set the {}", "ERR".bold().red(), description);
     }
 }
 
@@ -171,7 +167,7 @@ fn disable_systemd_service() {
         ));
         service_name = "umbra-theme-manager.service";
     } else {
-        panic!("{}: No systemd service found!", "ERROR".bold().red());
+        panic!("{}: No systemd service found!", "ERR".bold().red());
     };
 
     // Disable the systemd service using systemctl
@@ -183,15 +179,11 @@ fn disable_systemd_service() {
     if status.success() {
         println!(
             "{}: Successfully disabled {}",
-            "SUCCESS".bold().green(),
+            "DONE".bold().green(),
             service_name
         );
     } else {
-        eprintln!(
-            "{}: Failed to disable {}",
-            "ERROR".bold().red(),
-            service_name
-        );
+        eprintln!("{}: Failed to disable {}", "ERR".bold().red(), service_name);
     }
 }
 
@@ -201,7 +193,7 @@ pub fn theme_manager(args: &ThemeManagerArgs) {
     if is_root() {
         println!(
             "{}: Please don't run the theme manager as root.",
-            "WARNING".yellow()
+            "WARN".yellow()
         );
         return;
     } else {
