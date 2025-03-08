@@ -1,9 +1,10 @@
-use colored::Colorize;
+package modules
 
-pub fn print_nebula() -> String {
-    let stars = format!(
-        "{}",
-        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠀⠀⠀⠀⠀
+import "github.com/fatih/color"
+
+func PrintNebula() string {
+	stars := color.MagentaString(`	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+             ⠀⣴⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢤⠤⠤⠞⡎⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡥⠀⠀⠓⠦⢄⡀⠀⠀
 ⠀⢸⠦⣄⡠⠞⡇⠀⠀⠀⣞⣠⠤⡀⢰⠋⠁⠀⠀⠀
@@ -13,10 +14,7 @@ pub fn print_nebula() -> String {
 ⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⢀⡧⠀⠁⠀⢀⠎⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠳⣄⠀⢀⣀⠈⡇⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡞⡴⠋⠈⠙⠿⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀"
-            .bold()
-            .purple()
-    );
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀`)
 
-    return stars;
+	return stars
 }
