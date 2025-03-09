@@ -9,7 +9,12 @@ require (
 )
 
 require (
-	github.com/darkmatterorg/orbit v0.0.0-20250308232830-04bc0c6099b4
+	github.com/briandowns/spinner v1.23.2 // indirect
+	golang.org/x/term v0.1.0 // indirect
+)
+
+require (
+	github.com/darkmatterorg/orbit v0.0.0-20250309153744-544a887393cb
 	github.com/hairyhenderson/go-which v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect

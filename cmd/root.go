@@ -31,7 +31,7 @@ var rootCmd = &cobra.Command{
 		if versionFlag {
 			stars := modules.PrintNebula()
 
-			fmt.Println(color.MagentaString("Nebula") + ": 1.0" + color.MagentaString(stars))
+			fmt.Println(color.MagentaString("Nebula") + ": 1.4" + color.MagentaString(stars))
 		}
 
 	},
@@ -60,6 +60,6 @@ func init() {
 	rootCmd.AddCommand(flatpaksCmd)
 	rootCmd.AddCommand(updateCmd)
 	rootCmd.AddCommand(kargsCmd)
-
+	rootCmd.AddCommand(thememanagerCmd)
 	rootCmd.Flags().BoolVarP(&versionFlag, "version", "v", false, "Show version")
 }

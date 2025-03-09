@@ -31,8 +31,8 @@ func wait() {
 	}
 }
 
-func set_plasma_theme(theme string, icons string, cursor string, wallpaper string) {
-	if utils.IsProcessRunning("plasmashell") {
+func Setplasmatheme(theme string, icons string, cursor string, wallpaper string) {
+	if utils.IsProcessRunning("gnome-shell") {
 		if config.Config.Insults {
 			utils.Error("Are you dumb? Don't run the Plasma theme functions on non-Plasma environment's")
 		} else {
@@ -106,7 +106,7 @@ func enableGnomeExtensions(filePath string) {
 	}
 }
 
-func set_gnome_theme(icons string, wallpaper_dark string, wallpaper_light string, cursor string, theme string, dconf_path string) {
+func Setgnometheme(icons string, wallpaper_dark string, wallpaper_light string, cursor string, theme string, dconf_path string) {
 	if utils.IsProcessRunning("plasmashell") {
 		if config.Config.Insults {
 			utils.Error("Are you dumb? Don't run GNOME theme functions on non-GNOME environment's")

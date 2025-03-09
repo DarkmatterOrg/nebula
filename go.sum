@@ -1,10 +1,10 @@
 github.com/BurntSushi/toml v1.4.0 h1:kuoIxZQy2WRRk1pttg9asf+WVv6tWQuBNVmK8+nqPr0=
 github.com/BurntSushi/toml v1.4.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
+github.com/briandowns/spinner v1.23.2 h1:Zc6ecUnI+YzLmJniCfDNaMbW0Wid1d5+qcTq4L2FW8w=
+github.com/briandowns/spinner v1.23.2/go.mod h1:LaZeM4wm2Ywy6vO571mvhQNRcWfRUnXOs0RcKV0wYKM=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
-github.com/darkmatterorg/orbit v0.0.0-20250308222742-43c83586ec16 h1:LB09pHM2FO3XCfrIgoPkkZsYEhC3ley7gGRjEtXrBRA=
-github.com/darkmatterorg/orbit v0.0.0-20250308222742-43c83586ec16/go.mod h1:mCaxrhqloptW2rzI5yoT8USII51ZjsKAFT2u80zakTI=
-github.com/darkmatterorg/orbit v0.0.0-20250308232830-04bc0c6099b4 h1:KnVYbo6w4bOw8zSEQ2MCQaD2rcVG1m0O2okJhUlXHYg=
-github.com/darkmatterorg/orbit v0.0.0-20250308232830-04bc0c6099b4/go.mod h1:mCaxrhqloptW2rzI5yoT8USII51ZjsKAFT2u80zakTI=
+github.com/darkmatterorg/orbit v0.0.0-20250309153744-544a887393cb h1:jYNWUH9JApph9EvfDVgqNTtCFTwcAmabV14/MYfjf4Y=
+github.com/darkmatterorg/orbit v0.0.0-20250309153744-544a887393cb/go.mod h1:XQJ64YYKadoV7GzA2ZeLf6xEstpE0b9xIma5pYs3Yic=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
 github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
@@ -47,6 +47,8 @@ golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.31.0 h1:ioabZlmFYtWhL+TRYpcnNlLwhyxaM9kWTDEmfnprqik=
 golang.org/x/sys v0.31.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
+golang.org/x/term v0.1.0 h1:g6Z6vPFA9dYBAF7DWcH6sCcOntplXsDKcliusYijMlw=
+golang.org/x/term v0.1.0/go.mod h1:jbD1KX2456YbFQfuXm/mYQcufACuNUgVhRMnK/tPxf8=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.23.0 h1:D71I7dUrlY+VX0gQShAThNGHFxZ13dGLBHQLVl1mJlY=
 golang.org/x/text v0.23.0/go.mod h1:/BLNzu4aZCJ1+kcD0DNRotWKage4q2rGVAg4o22unh4=
