@@ -39,7 +39,7 @@ var rootCmd = &cobra.Command{
 		if versionFlag {
 			stars := modules.PrintNebula()
 
-			fmt.Println(color.MagentaString("Nebula") + ": 1.5" + color.MagentaString(stars))
+			fmt.Println(color.MagentaString("Nebula") + ": 1.6" + color.MagentaString(stars))
 		}
 
 	},
