@@ -18,7 +18,7 @@ var setGnomeCmd = &cobra.Command{
 	Args: func(cmd *cobra.Command, args []string) error {
 
 		if len(args) < 6 {
-			utils.Error("You need to specify icons, wallpaper-dark, wallpaper-light, cursor, theme, dconf_path")
+			utils.Error("You need to specify icons, wallpaper-dark, wallpaper-light, cursor, theme")
 
 			return fmt.Errorf("")
 		}
@@ -26,7 +26,7 @@ var setGnomeCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		modules.Setgnometheme(args[0], args[1], args[2], args[3], args[4], args[5])
+		modules.Setgnometheme(args[0], args[1], args[2], args[3], args[4])
 	},
 }
 

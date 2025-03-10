@@ -3,7 +3,7 @@ package modules
 import (
 	"fmt"
 	"github.com/darkmatterorg/orbit/utils"
-
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -12,7 +12,8 @@ func update_distrobox() {
 	if utils.IsCmdInstalled("distrobox") {
 		utils.Notice("Updating distrobox containers...")
 
-		distrobox_update := exec.Command("distrobox", "upgrade", "-all")
+		distrobox_update := exec.Command("distrobox", "upgrade", "--all")
+		distrobox_update.Stdout = os.Stdout
 
 		err := distrobox_update.Run()
 
@@ -29,6 +30,7 @@ func update_flatpaks() {
 		utils.Notice("Updating flatpaks... (It may hang for a few minutes)")
 
 		flatpaks_update := exec.Command("flatpak", "update", "-y")
+		flatpaks_update.Stdout = os.Stdout
 
 		err := flatpaks_update.Run()
 
@@ -41,10 +43,11 @@ func update_flatpaks() {
 }
 
 func update_image() {
-	if utils.IsCmdInstalled("rpm-ostree") {
+	if utils.IsCmdInstalled("bootc") {
 		utils.Notice("Updating base image...")
 
 		update_image := exec.Command("bootc", "upgrade")
+		update_image.Stdout = os.Stdout
 		err := update_image.Run()
 
 		if err != nil {
@@ -65,7 +68,6 @@ func update_python_packages() {
 
 		if err != nil {
 			utils.Error("Failed to get the installed Python packages!")
-			return
 		}
 
 		packages := string(output)
@@ -77,6 +79,7 @@ func update_python_packages() {
 			}
 
 			upgradeCmd := exec.Command("pip3", "install", "--upgrade", packageName)
+			upgradeCmd.Stdout = os.Stdout
 			upgradeOutput, err := upgradeCmd.CombinedOutput()
 
 			if err != nil {
@@ -114,6 +117,7 @@ func update_node_packages() {
 				return
 			}
 
+			cmd.Stdout = os.Stdout
 			err := cmd.Run()
 
 			if err != nil {

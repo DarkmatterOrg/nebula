@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -40,6 +41,8 @@ func Setplasmatheme(theme string, icons string, cursor string, wallpaper string)
 		}
 		return
 	}
+
+	wait()
 
 	plasma_colorscheme := exec.Command("plasma-apply-colorscheme", theme)
 	plasma_colorscheme_err := plasma_colorscheme.Run()
@@ -106,7 +109,37 @@ func enableGnomeExtensions(filePath string) {
 	}
 }
 
-func Setgnometheme(icons string, wallpaper_dark string, wallpaper_light string, cursor string, theme string, dconf_path string) {
+func loadDconfFiles(directory string) error {
+	// Read all files in the directory
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return fmt.Errorf("failed to read directory: %v", err)
+	}
+
+	// Loop through the files in the directory
+	for _, file := range files {
+		// Only process regular files (not directories)
+		if !file.IsDir() {
+			filePath := filepath.Join(directory, file.Name())
+			// Execute the dconf command to load each file
+			cmd := exec.Command("dconf", "load", "/org/gnome/", filePath)
+
+			// Run the command and get output
+			output, err := cmd.CombinedOutput()
+			if err != nil {
+				utils.Error(fmt.Sprintf("loading file %s: %v\n", file.Name(), err))
+				fmt.Println("Output:", string(output))
+				continue
+			}
+
+			utils.Done(fmt.Sprintf("Successfully loaded %s\n", file.Name()))
+		}
+	}
+
+	return nil
+}
+
+func Setgnometheme(icons string, wallpaper_dark string, wallpaper_light string, cursor string, theme string) {
 	if utils.IsProcessRunning("plasmashell") {
 		if config.Config.Insults {
 			utils.Error("Are you dumb? Don't run GNOME theme functions on non-GNOME environment's")
@@ -115,6 +148,8 @@ func Setgnometheme(icons string, wallpaper_dark string, wallpaper_light string, 
 		}
 		return
 	}
+
+	wait()
 
 	// Set wallpaper for dark theme
 	wallpaper_darkmode := exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", wallpaper_dark)
@@ -161,5 +196,8 @@ func Setgnometheme(icons string, wallpaper_dark string, wallpaper_light string, 
 	switch {
 	case strings.Contains(image_type, "arcturus"):
 		enableGnomeExtensions("/usr/share/horizon/configs/arcturus/gnome_extensions.txt")
+		loadDconfFiles("/usr/share/horizon/configs/arcturus")
+	case strings.Contains(image_type, "umbra"):
+		enableGnomeExtensions("/usr/share/umbra/configs/gnome_extensions.txt")
 	}
 }

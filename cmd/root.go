@@ -7,14 +7,22 @@ import (
 	"os"
 
 	"fmt"
+	"strings"
 
 	"github.com/darkmatterorg/nebula/modules"
 	"github.com/darkmatterorg/orbit/utils"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 var versionFlag bool
+
+const columnWidth = 30
+
+func bold(input string) string {
+	return "\033[1m" + input + "\033[0m" // Apply ANSI bold
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -35,6 +43,47 @@ var rootCmd = &cobra.Command{
 		}
 
 	},
+}
+
+func formatWithPadding(s string) string {
+	return fmt.Sprintf("%-*s", columnWidth, s)
+}
+
+func customizeHelp(cmd *cobra.Command, args []string) {
+	// Modify the "Usage" section
+	usageLine := cmd.UseLine()
+	parts := strings.SplitN(usageLine, " ", 2)
+	if len(parts) > 1 {
+		usageLine = parts[0] + " " + bold(parts[1]) // Bold only arguments
+	} else {
+		usageLine = bold(usageLine)
+	}
+
+	// Print the custom help message
+	fmt.Println(bold("Nebula - flexible system manager"))
+	fmt.Println("\n" + bold("Usage") + ":")
+	fmt.Println("  " + bold(usageLine))
+	fmt.Println("\n" + bold("Available Commands"+":"))
+
+	// Print aligned commands with fixed column width
+	for _, c := range cmd.Commands() {
+		if !c.Hidden {
+			fmt.Printf("  %-*s %s\n", columnWidth, bold(c.Name()), c.Short)
+		}
+	}
+
+	fmt.Println("\nFlags:")
+
+	// Print aligned flags with fixed column width
+	cmd.Flags().VisitAll(func(f *pflag.Flag) {
+		flagText := "--" + f.Name
+		if f.Shorthand != "" {
+			flagText = "-" + f.Shorthand + ", " + flagText
+		}
+		fmt.Printf("  %-*s %s\n", columnWidth, bold(flagText), f.Usage)
+	})
+
+	fmt.Println("\nUse " + bold("nebula [command] --help") + " for more information about a command.")
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -61,5 +110,9 @@ func init() {
 	rootCmd.AddCommand(updateCmd)
 	rootCmd.AddCommand(kargsCmd)
 	rootCmd.AddCommand(thememanagerCmd)
+
 	rootCmd.Flags().BoolVarP(&versionFlag, "version", "v", false, "Show version")
+
+	rootCmd.SetHelpFunc(customizeHelp)
+
 }
