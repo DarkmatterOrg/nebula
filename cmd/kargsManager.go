@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/darkmatterorg/nebula/config"
 	"github.com/darkmatterorg/nebula/modules"
 	"github.com/darkmatterorg/orbit/utils"
 	"github.com/spf13/cobra"
@@ -37,7 +38,7 @@ var kargsCmd = &cobra.Command{
 	Use:   "kargs",
 	Short: "Manage kernel arguments",
 	Run: func(cmd *cobra.Command, args []string) {
-		if modules.Debug_mode() {
+		if config.Config.Mode == "debug" {
 			utils.Info("You shouldn't run this module on non-Darkmatter systems/images.")
 			return
 		}

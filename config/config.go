@@ -6,7 +6,8 @@ import (
 )
 
 type Settings struct {
-	Insults bool `toml:"insults"`
+	Insults bool   `toml:"insults"`
+	Mode    string `toml:"mode"`
 }
 
 var Config Settings

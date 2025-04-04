@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/darkmatterorg/nebula/config"
 	"github.com/darkmatterorg/nebula/modules"
 	"github.com/darkmatterorg/orbit/utils"
 	"github.com/fatih/color"
@@ -89,7 +90,8 @@ func customizeHelp(cmd *cobra.Command, args []string) {
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	if modules.Debug_mode() {
+
+	if config.Config.Mode == "debug" {
 		utils.Info("Running in debug mode, expect breakage.")
 	} else if utils.Getimagetype() == "" {
 		utils.Error("Nebula can only run on Darkmatter images.")
