@@ -3,7 +3,7 @@ package modules
 import "github.com/fatih/color"
 
 func PrintNebula() string {
-	stars := color.MagentaString(`	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+	stars := color.MagentaString(`
              ⠀⣴⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢤⠤⠤⠞⡎⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡥⠀⠀⠓⠦⢄⡀⠀⠀

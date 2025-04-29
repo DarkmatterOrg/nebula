@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/darkmatterorg/nebula/config"
 	"github.com/darkmatterorg/orbit/utils"
 )
 
@@ -32,7 +33,7 @@ func check_fedora_remote() bool {
 }
 
 func remove_fedora_remote() {
-	if check_fedora_remote() {
+	if !check_fedora_remote() {
 		return
 	}
 
@@ -93,6 +94,7 @@ func run_flatpak_override(args []string) {
 }
 
 func fix_theming() {
+
 	run_flatpak_override([]string{
 		"--filesystem=xdg-config/gtk-4.0:ro",
 		"--filesystem=xdg-config/gtk-3.0:ro",
@@ -265,7 +267,7 @@ func install_flatpaks() {
 		for _, line := range lines {
 			line = strings.TrimSpace(line)
 			if line != "" {
-				cmd := exec.Command("flatpak", "remove", "--system", "-y", line)
+				cmd := exec.Command("flatpak", "install", "--system", "-y", line)
 				_, err := cmd.CombinedOutput()
 				if err != nil {
 					utils.Error("Failed to install flatpaks from list.")
@@ -278,21 +280,31 @@ func install_flatpaks() {
 }
 
 func Flatpak_manager_remove() {
+	if config.Config.Mode == "debug" {
+		utils.Debug("Running in debug mode, not running the flatpak manager.")
+		return
+	}
+
 	remove_flatpaks()
 
 	switch {
 	case strings.Contains(image_type, "nova"):
-		utils.Disable_systemd_service("nova-flatpak-manager")
+		utils.DisableSystemdService("nova-flatpak-manager", false)
 	case strings.Contains(image_type, "arcturus"), strings.Contains(image_type, "aster"):
-		utils.Disable_systemd_service("horizon-flatpak-manager")
+		utils.DisableSystemdService("horizon-flatpak-manager", false)
 	case strings.Contains(image_type, "umbra"):
-		utils.Disable_systemd_service("umbra-flatpak-manager")
+		utils.DisableSystemdService("umbra-flatpak-manager", false)
 	default:
 		utils.Error("Image not supported.")
 	}
 }
 
 func Flatpak_manager() {
+	if config.Config.Mode == "debug" {
+		utils.Debug("Running in debug mode, not running the flatpak manager.")
+		return
+	}
+
 	remove_fedora_remote()
 	enable_flathub()
 	install_flatpaks()
@@ -300,11 +312,11 @@ func Flatpak_manager() {
 
 	switch {
 	case strings.Contains(image_type, "nova"):
-		utils.Disable_systemd_service("nova-flatpak-manager")
+		utils.DisableSystemdService("nova-flatpak-manager", false)
 	case strings.Contains(image_type, "arcturus"), strings.Contains(image_type, "aster"):
-		utils.Disable_systemd_service("horizon-flatpak-manager")
+		utils.DisableSystemdService("horizon-flatpak-manager", false)
 	case strings.Contains(image_type, "umbra"):
-		utils.Disable_systemd_service("umbra-flatpak-manager")
+		utils.DisableSystemdService("umbra-flatpak-manager", false)
 	default:
 		utils.Error("Image not supported.")
 	}
